@@ -1,0 +1,122 @@
+.logContainer{
+    display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-top: 50px;
+}
+
+.logWrapper{
+   display: flex;
+   align-items: center;
+   border: 2px solid  #003580;
+   width: 800px;
+   height: 400px;
+}
+
+.logImg{
+   
+   background-color: #003580;
+   color: white;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   height: 100%;
+   flex :2;
+}
+
+.logImg>h1{
+
+   margin-bottom: 10px;
+   font-weight: bold;
+}
+
+.logImg>h6{
+   font-weight: normal;
+}
+.loginEntry{
+   flex:3;
+   
+   display: flex;
+   justify-content: center;
+
+}
+.loginForm{
+   
+   display: flex;
+   flex-direction: column;
+   margin-left: 20px;
+
+}
+
+.label{
+   margin-bottom: 10px;
+   font-weight: normal;
+}
+
+.input{
+   height: 30px;
+   background-color: lightgray;
+   border: none;
+   width: 300px;
+   margin-bottom: 10px;
+}
+
+.button{
+   align-self: center;
+   width: 120px;
+   background-color: #0071c2;
+   color: white;
+   font-weight: bold;
+   padding: 10px 5px;
+   border: none;
+   margin-top: 15px;
+   cursor: pointer;
+   border-radius: 17px;
+}
+.buttonreg{
+   margin-left: 15px;
+   border:none;
+   padding: 2px 5px;
+   cursor: pointer;
+   color: #003580;
+   border-radius: 2px;
+   
+}
+
+.as{
+   display: flex;
+   align-items: center;
+}
+/* .login {
+   height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
+ 
+ .lContainer {
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+ }
+ 
+ .lInput{
+   height: 30px;
+   padding: 10px;
+ }
+ 
+ .lButton {
+   border: none;
+   padding: 10px 20px;
+   background-color: #0071c2;
+   color: white;
+   font-weight: bold;
+   cursor: pointer;
+   border-radius: 5px;
+ }
+ 
+ .lButton:disabled{
+   background-color: #0071c28c;
+   cursor: not-allowed;
+ } */

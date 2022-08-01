@@ -1,0 +1,148 @@
+.Container{
+    display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-top: 30px;
+}
+
+.Wrapper{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+    border: 2px solid black;
+    border-radius: 20px 20px 0px 0px;
+    width: 700px;
+    height: 1200px;
+    margin-bottom: 30px;
+ }
+ .Wrappera{
+   display: flex;
+   align-items: center;
+   flex-direction: column;
+   height: 1200px;
+   border-radius: 20px 20px 0px 0px;
+   width: 700px;
+   margin-bottom: 30px;
+}
+
+ .headingContainer{
+    border-radius: 16px 16px 0px 0px;
+    background-color: #003580;
+    width: 100%;
+ }
+
+ .heading{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     color: white;
+     text-transform: uppercase;
+     font-size: 20px;
+     width: 100%;
+     flex:0.5;
+ }
+
+ .heading>h1{
+    margin: 10px;
+ }
+
+ .details{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    flex:3;
+ }
+
+ .details>span{
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px;
+ }
+.label{
+   padding-top: 5px;
+   font-weight: bold;
+}
+ .data{
+   width: 65%;
+   background: #e5e5e5;
+   line-height: 45px;
+   border: none;
+   border-radius: 5px;
+   padding: 0 22px;
+   font-size: 16px;
+   color: #555;
+}
+ .confirm{
+     flex:1;
+ }
+
+ .button.a{
+    color: white;
+    font-weight: normal;
+    font-size: 18px;
+    width: 150px;
+    height: 50px;
+    border-radius: 100px;
+    margin-bottom: 30px;
+ }
+ 
+ .custom-file-input {
+   color: transparent;
+ }
+ .custom-file-input::-webkit-file-upload-button {
+   visibility: hidden;
+ }
+ .custom-file-input::before {
+   content: 'Upload Images';
+   color: white;
+   width: 100px;
+   display: inline-block;
+   background-color:#0071c2;
+   border: 1px solid #999;
+   border-radius: 17px;
+   padding: 10px 5px;
+   outline: none;
+   white-space: nowrap;
+   cursor: pointer;
+   font-weight: 700;
+   font-size: 10pt;
+   margin-left:20px;
+ }
+ .custom-file-input:hover::before {
+   border-color: black;
+ }
+ .custom-file-input:active {
+   outline: 0;
+ }
+ .custom-file-input:active::before {
+   background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
+ }
+
+.selects{
+   background-color: lightgray;
+   color: black;
+   width: 75%;
+   height: 50px;
+   border-radius: 15px;
+   border: none;
+   font-weight: bold;
+   text-align: center;
+}
+ .option{
+
+   background-color: lightgray;
+   color: black;
+   cursor: pointer;
+   /* align-self: center;
+
+   font-weight: bold;
+   padding: 10px 5px;
+   border: none;
+   margin-top: 10px;
+   
+   border-radius: 17px; */
+ }
+ 

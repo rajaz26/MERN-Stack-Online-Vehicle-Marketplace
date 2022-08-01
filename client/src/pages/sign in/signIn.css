@@ -1,0 +1,76 @@
+.signContainer{
+     display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.signWrapper{
+    display: flex;
+    align-items: center;
+    border: 2px solid  #003580;
+    width: 800px;
+    height: 450px;
+}
+
+.signImg{
+    
+    background-color: #003580;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex :2;
+}
+
+.signImg>h1{
+
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.signImg>h6{
+    font-weight: normal;
+}
+.signinEntry{
+    flex:3;
+    
+    display: flex;
+    justify-content: center;
+
+}
+.signinForm{
+    
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+
+}
+
+.label{
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+.input{
+    height: 30px;
+    background-color: lightgray;
+    border: none;
+    width: 300px;
+    margin-bottom: 10px;
+}
+
+.button{
+    align-self: center;
+    width: 120px;
+    background-color: #0071c2;
+    color: white;
+    font-weight: bold;
+    padding: 10px 5px;
+    border: none;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 17px;
+}

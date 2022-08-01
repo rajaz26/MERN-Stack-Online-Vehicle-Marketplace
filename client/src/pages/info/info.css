@@ -1,0 +1,97 @@
+.title{
+    margin:20px;
+    margin-top: 50px;
+    color: #003580;
+}
+
+.line{
+    width: 20.5%;
+    margin-top: -15px;
+    margin-left: 20px;
+    border:1px solid black;
+}
+.c{
+    color: white;
+}
+.Container2{
+    display: flex;
+    flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   margin-top: 30px;
+}
+
+.Wrapper2{
+   display: flex;
+   border: 1px solid #003580;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   margin-top: 20px;
+   margin-bottom: 20px;
+}
+
+
+.profileHeading{
+    border: 1px solid #003580;
+    display: flex;
+    flex:0.3;
+    justify-content: center;
+    padding: 20px;
+    color: white;
+    width: 460px;
+    background-color:#003580;
+    border-radius: 19px 19px 0px 0px;
+    
+}
+
+.profiledata{
+    width: 100%;
+    background-color:white;
+    display: flex;
+    flex: 6;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.profiledataelement{
+    color: white;
+    display: flex;
+    margin-bottom: 40px;
+    justify-content: space-between;
+}
+.profiledataelement>h3{
+    margin-right: 10px;
+}
+
+.label.label{
+    margin-top:5px;
+}
+
+.label{
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+.input{
+    height: 30px;
+    background-color: lightgray;
+    border: none;
+    width: 300px;
+    margin-bottom: 10px;
+}
+
+
+.button{
+    align-self: center;
+    width: 120px;
+    background-color: #0071c2;
+    color: white;
+    font-weight: bold;
+    padding: 10px 5px;
+    border: none;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 17px;
+}

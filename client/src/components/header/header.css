@@ -1,0 +1,131 @@
+.header{
+    
+    background-color: #003580;
+    color: white;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+.headerContainer.listMode{
+    margin: 20px 0px 0px 0px;
+}
+
+.headerContainer{
+
+    width:100%;
+    max-width: 1024px;
+    margin: 20px 0px 100px 0px;
+}
+
+.headerList{
+  
+     display: flex;
+     align-items: center;
+     gap: 40px;
+     margin-bottom: 20px;
+}
+
+.headerListItems{
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+}
+
+.headerLi{
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+}
+
+.headerListItems.active{
+    border: 1px solid white;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.headerListItems>Link{
+    border: 1px solid white;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.headerLi:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color:  white;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+  
+  .headerLi:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+.headerDesc{
+    margin:20px 0px;
+}
+
+.headerSearch{
+    background-color: white;
+    height: 30px;
+    border: 3px solid #febb02;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding:10px 0px;
+    border-radius: 5px;
+    position: absolute;
+    bottom:-25px;
+    width: 100%;
+    max-width: 1024px; 
+}
+
+.headerSearchItem{
+    display: flex;
+    align-items: center;
+    gap:10px
+}
+.headerSearchItemP{
+    display: flex;
+    align-items: center;
+    gap:10px;
+
+}
+.headerSearchInput{
+    font-size: 15px;
+    border: none;
+    outline: none ;
+}
+
+.headerSearchText{
+    color: gray;
+    cursor: pointer;
+}
+
+.headerBtn{
+    background-color: #0071c2;
+    width: 90px;
+    border-radius: 5px;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+.dropdown{
+    font-size: 17px;
+    color: gray;
+    cursor: pointer;
+    height: 50px;
+    width: 200px;
+    border:none;
+}
+
+.dropdown>option{
+    color: gray;
+}
