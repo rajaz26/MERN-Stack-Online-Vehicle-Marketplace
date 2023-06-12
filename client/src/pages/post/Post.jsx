@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import "./post.css";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
-import { useState } from "react";
 import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import useFetch from "../../hooks/useFetch";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Dropzone from "react-dropzone";
+import Modal from "react-modal";
+import loader from "./loader.gif";
 
 const Post = () => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const id = user._id;
-
+  const id = user.user.user._id;
+  const [loading, setLoading] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
   const [yearmodel, setYearModel] = useState("");
@@ -25,65 +29,69 @@ const Post = () => {
   const [price, setPrice] = useState("");
   const [fileName, setFileName] = useState("");
   const [condition, setCondition] = useState("");
+  const [files, setFiles] = useState([]);
 
-  const onChangeFile = (e) => {
-    setFileName(e.target.files);
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const uploaders = files.map((file) => {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "uploads"); // Replace with your own Cloudinary upload preset
+      formData.append("cloud_name", "dwfdgfi86"); // Replace with your own Cloudinary cloud name
+
+      return axios
+        .post(
+          "https://api.cloudinary.com/v1_1/dwfdgfi86/image/upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((response) => {
+          const { secure_url } = response.data;
+          return secure_url;
+        });
+    });
+
+    try {
+      const uploadedFiles = await axios.all(uploaders);
+      const imageUrls = uploadedFiles.filter((url) => url !== undefined);
+
+      const body = {
+        make: make,
+        model: model,
+        yearmodel: yearmodel,
+        average: average,
+        mileage: mileage,
+        yearmodel: yearmodel,
+        price: price,
+        city: city,
+        color: color,
+        transmission: transmission,
+        contact: user.user.user.phone,
+        images: imageUrls,
+        condition: condition,
+      };
+
+      const response = await axios.post(`/used/post/${id}`, body);
+      setLoading(false);
+      setModalIsOpen(true);
+    } catch (err) {
+      console.error("Ad Posting failed", err);
+      setLoading(false);
+    }
   };
 
-  // const postAd = async (event) => {
-  //   event.preventDefault();
-  //   const body = {
-  //     make: make,
-  //     model: model,
-  //     yearmodel: yearmodel,
-  //     color: color,
-  //     average: average,
-  //     mileage: mileage,
-  //     city: city,
-  //     transmission: transmission,
-  //     price: price,
-  //   };
+  const handleFileDrop = (acceptedFiles) => {
+    setFiles(acceptedFiles);
+  };
 
-  //   const response = await axios.post(`/auth/post/${id}`, body);
-
-  //   const data = await response.data;
-  //   alert("Ad Posted Successfully");
-  // };
-
-  const postAd = async (event) => {
-    event.preventDefault();
-
-    let imagesarr = [];
-    console.log(typeof fileName);
-    for (const file in fileName) {
-      if (fileName.hasOwnProperty(file)) {
-        let fileInstance = fileName[file];
-        imagesarr.push(fileInstance["name"]);
-      }
-    }
-    console.log(imagesarr);
-    const body = {
-      make: make,
-      model: model,
-      yearmodel: yearmodel,
-      average: average,
-      mileage: mileage,
-      yearmodel: yearmodel,
-      price: price,
-      city: city,
-      color: color,
-      transmission: transmission,
-      contact: user.phone,
-      images: imagesarr,
-      condition: condition,
-    };
-    console.log(body);
-    const response = await axios
-      .post(`/auth/post/${id}`, body)
-      .then((res) => console(res.data), alert("Ad Posted Successfully"))
-      .catch((err) => {
-        console.log("Add Posting failed", err);
-      });
+  const closeModal = () => {
+    setModalIsOpen(false);
+    navigate(`/info/${id}`);
   };
   return (
     <div>
@@ -93,12 +101,12 @@ const Post = () => {
         <div className="Wrapper">
           <div className="headingContainer">
             <div className="heading">
-              <h1>Post an AD Now !</h1>
+              <h1>Post an AD Now!</h1>
             </div>
           </div>
           <form
-            onSubmit={postAd}
-            encType="multipart/form-data "
+            onSubmit={handleFormSubmit}
+            encType="multipart/form-data"
             className="Wrappera"
           >
             <div className="details">
@@ -201,13 +209,14 @@ const Post = () => {
               </span>
               <span>
                 <label className="label">Vehicle Images</label>
-                <input
-                  type="file"
-                  filename="images"
-                  class="custom-file-input"
-                  onChange={onChangeFile}
-                  multiple
-                />
+                <Dropzone onDrop={handleFileDrop} multiple accept="image/*">
+                  {({ getRootProps, getInputProps }) => (
+                    <div {...getRootProps()}>
+                      <input {...getInputProps()} />
+                      <p>Drop your files or click here to upload</p>
+                    </div>
+                  )}
+                </Dropzone>
               </span>
               <span>
                 <label className="label">Condition</label>
@@ -220,17 +229,29 @@ const Post = () => {
                 />
               </span>
             </div>
-
             <div className="Confirm">
-              {/* <Link to={`/info/${user._id}`}> */}
-              <button className="button a" type="submit">
-                Confirm
-              </button>
-              {/* </Link> */}
+              {loading ? (
+                <img src={loader} alt="Loading" className="spinner" />
+              ) : (
+                <button className="button a" type="submit">
+                  Confirm
+                </button>
+              )}
             </div>
           </form>
         </div>
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Ad Success Modal"
+        className="modal"
+      >
+        <h2 className="modalHeading">Ad Posted Successfully</h2>
+        <button className="modalButton" onClick={closeModal}>
+          Close
+        </button>
+      </Modal>
     </div>
   );
 };

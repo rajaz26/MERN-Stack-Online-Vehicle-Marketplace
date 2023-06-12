@@ -1,95 +1,105 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./info.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
 import View from "../../components/viewad/View";
-import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import useFetch from "../../hooks/useFetch";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import Delete from "./Delete";
 
-// import { useState } from "react";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import {
-//   faCircleArrowLeft,
-//   faCircleArrowRight,
-//   faCircleXmark,
-//   faLocationDot,
-// } from "@fortawesome/free-solid-svg-icons";
 const Info = () => {
-  // const handleOpen = () => {
-  //   setOpen(true);
-  // };
-
-  // const id = "62b8615137bd397f5b010388";
-
-  // const location = useLocation();
-  // const id = location.pathname.split("/")[2];
-
   const { user } = useContext(AuthContext);
-  const id = user._id;
+  const id = user.user.user._id;
 
-  const { data, loading, error } = useFetch(`/auth/info/${id}`);
+  const [ads, setAds] = useState([]);
+  const { data, loading, error, refetch } = useFetch(`/auth/info/${id}`);
+  useEffect(() => {
+    if (!loading && !error) {
+      setAds(data);
+    }
+  }, [loading, error, data]);
 
-  var date;
-  var result;
+  const handleDelete = (itemId) => {
+    console.log(itemId);
+    setAds((prevAds) => prevAds.filter((item) => item && item._id !== itemId));
+  };
+
+  const deleteAd = (itemId) => {
+    axios
+      .delete(`/used/delete/${id}/${itemId}`)
+      .then((res) => {
+        handleDelete(itemId);
+        console.log("Ad successfully deleted!");
+      })
+      .catch((error) => {
+        console.log(error, "Ad not deleted");
+      });
+  };
+
   return (
     <div>
       <Navbar />
       <Header type="post" />
       <div className="title">
-        <h1>Your Posted Ads :</h1>
+        <h1>Your Posted Ads:</h1>
       </div>
       <hr className="line" />
 
       <div className="Container2">
-        {data.map((item) => (
-          <div key={`${item._id}`} name={`${item._id}`}>
-            <div className="c">
-              {(date = item.createdAt)}
-              {(result = date.slice(0, 10))}
-            </div>
-            <div className="viewItem">
-              <img
-                // src="https://cdn.carbuzz.com/gallery-images/original/192000/200/192288.jpg"
-                src={`http://127.0.0.1:5500/images/${item.images[0]}`}
-                className="viewImg"
-              />
+        {loading ? (
+          <h1 className="loadingMessage">Loading...</h1>
+        ) : ads.length === 0 ? (
+          <h1 className="noAdsMessage">There are no ads posted.</h1>
+        ) : (
+          ads.map((item) => {
+            if (!item) {
+              return null; // Skip rendering if item is null
+            }
+            return (
+              <div key={item._id} name={item._id} className="divBorder">
+                <div className="c">
+                  {item.createdAt && item.createdAt.slice(0, 10)}
+                </div>
+                <div className="viewItem">
+                  <img src={item.images[0]} className="viewImg" />
 
-              <div className="viewDesc">
-                <h1 className="viewTitle">
-                  {item.make} {item.model}
-                </h1>
-                <div className="viewSubtitl">Model Year : {item.yearmodel}</div>
-                <div>
-                  <div className="viewSubtitle">Date Posted :</div>
-                  {/* <div className="viewTaxiOp">
-                  {item.createdAt.slice(0, 10)}
-                </div> */}
-                  <div className="viewTaxiOp">{result}</div>
+                  <div className="viewDesc">
+                    <h1 className="viewTitle">
+                      {item.make} {item.model}
+                    </h1>
+                    <div className="viewSubtitl">
+                      Model Year: {item.yearmodel}
+                    </div>
+                    <div>
+                      <div className="viewSubtitle">Date Posted:</div>
+                      <div className="viewTaxiOp">
+                        {item.createdAt && item.createdAt.slice(0, 10)}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="viewDetails">
+                    <div className="viewDetailTexts">
+                      <Link to={`/used/${item._id}`}>
+                        <button className="viewCheckButton">View Ad</button>
+                      </Link>
+                      <button
+                        className="viewCheckButtond"
+                        onClick={() => deleteAd(item._id)}
+                      >
+                        Delete Ad
+                      </button>
+
+                      <Link to={`/post2/${item._id}`}>
+                        <button className="viewCheckButtone">Edit Ad</button>
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="viewDetails">
-                <div className="viewDetailTexts">
-                  <Link to={`/used/${item._id}`}>
-                    <button className="viewCheckButton">View Ad</button>
-                  </Link>
-                  <Delete item={item._id} />
-
-                  <Link to={`/post2/${item._id}`}>
-                    <button className="viewCheckButtone">Edit Ad</button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-        {/* })} */}
-        {/* <View />
-        <View />
-        <View /> */}
+            );
+          })
+        )}
       </div>
     </div>
   );

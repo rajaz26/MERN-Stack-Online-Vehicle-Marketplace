@@ -3,24 +3,24 @@
    justify-content: center;
    align-items: center;
    margin-top: 30px;
+
 }
 
 .Wrapper{
     display: flex;
     align-items: center;
     flex-direction: column;
-    
     border: 2px solid black;
     border-radius: 20px 20px 0px 0px;
     width: 700px;
-    height: 1200px;
+    padding-bottom: 20px;/* height: 1200px; */
     margin-bottom: 30px;
  }
  .Wrappera{
    display: flex;
    align-items: center;
    flex-direction: column;
-   height: 1200px;
+   /* height: 1200px; */
    border-radius: 20px 20px 0px 0px;
    width: 700px;
    margin-bottom: 30px;
@@ -146,3 +146,44 @@
    border-radius: 17px; */
  }
  
+
+ .modal {
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background-color: white;
+   border-radius: 4px;
+   width: 300px;
+   padding: 20px;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+ }
+ 
+ .modalHeading {
+   font-size: 20px;
+   margin-bottom: 10px;
+ }
+ 
+ .modalButton {
+   background-color:  #003580;
+   color: white;
+   border: none;
+   border-radius: 4px;
+   padding: 10px 20px;
+   font-size: 16px;
+   cursor: pointer;
+ }
+ 
+ .modalButton:hover {
+   background-color:#0071c2;
+ }
+ 
+ .spinner {
+   width: 30px;
+   height: 30px;
+   margin-right: 10px;
+ }

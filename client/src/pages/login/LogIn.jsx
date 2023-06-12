@@ -1,65 +1,49 @@
-import React, { useState } from "react";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
-import { Link } from "react-router-dom";
 import "./login.css";
 import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import Home from "../home/Home";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 const LogIn = () => {
+  const { dispatch } = useContext(AuthContext);
   const [credentials, setCredentials] = useState({
-    phone: undefined,
-    password: undefined,
+    phone: "",
+    password: "",
   });
-
-  const { user, loading, error, dispatch } = useContext(AuthContext);
-
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+    setCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleClick = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    dispatch({ type: "LOGIN_START" });
+
     try {
-      const res = await axios.post("/auth/login", credentials);
-      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
-      const id = res.data.details._id;
+      setLoading(true);
+      setError("");
+
+      const response = await axios.post("/auth/login2", credentials);
+
+      // Login successful
+      setLoading(false);
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: { user: response.data, username: response.data.user.username },
+      });
 
       navigate("/");
-      // navigate(<Home userId={id} />);
-    } catch (err) {
-      dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
+    } catch (error) {
+      setLoading(false);
+      setError("Invalid phone number or password");
+      console.error(error);
     }
   };
-  // return (
-  //   <div className="login">
-  //     <div className="lContainer">
-  //       <input
-  //         type="text"
-  //         placeholder="username"
-  //         id="phone"
-  //         onChange={handleChange}
-  //         className="lInput"
-  //       />
-  //       <input
-  //         type="text"
-  //         placeholder="password"
-  //         id="password"
-  //         onChange={handleChange}
-  //         className="lInput"
-  //       />
-  //       <button disabled={loading} onClick={handleClick} className="lButton">
-  //         Login
-  //       </button>
-  //       {error && <span>{error.message}</span>}
-  //     </div>
-  //   </div>
-  // );
+
   return (
     <div>
       <Navbar />
@@ -67,40 +51,33 @@ const LogIn = () => {
       <div className="logContainer">
         <div className="logWrapper">
           <div className="loginEntry">
-            <form className="loginForm">
+            <form className="loginForm" onSubmit={handleLogin}>
               <label className="label">Phone Number</label>
               <input
                 type="text"
                 placeholder="phone"
-                id="phone"
+                name="phone"
                 onChange={handleChange}
-                className="input"
+                className={`input ${error && "input-error"}`} // Apply input-error class if there is an error
               />
               <label className="label">Password</label>
               <input
                 type="password"
-                className="input"
+                className={`input ${error && "input-error"}`} // Apply input-error class if there is an error
                 placeholder="password"
                 name="password"
-                id="password"
                 onChange={handleChange}
-              ></input>
-              {/* <button className='button'>Confirm</button> */}
-              {/* <Link to="/"> */}
-              <button
-                disabled={loading}
-                /*type="submit"*/ className="button"
-                onClick={handleClick}
-              >
+              />
+
+              <button disabled={loading} type="submit" className="button">
                 Confirm
               </button>
-              {/* </Link> */}
             </form>
           </div>
           <div className="logImg">
             <h1>LOG IN</h1>
             <div className="as">
-              <h6>Doesn't have an account? </h6>
+              <h6>Don't have an account? </h6>
               <Link to="/signin">
                 <button className="buttonreg">Register</button>
               </Link>
@@ -108,7 +85,7 @@ const LogIn = () => {
           </div>
         </div>
       </div>
-      {error && <span>{error.message}</span>}
+      {error && <span className="error-message">{error}</span>}
     </div>
   );
 };

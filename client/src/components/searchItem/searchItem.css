@@ -1,5 +1,5 @@
 .searchItem {
-    border: 1px solid lightgray;
+  border: 2px solid black;
     padding: 10px;
     border-radius: 5px;
     display: flex;
@@ -68,11 +68,14 @@
   
   .siRating{
     display: flex;
-    justify-content: space-between
+    justify-content: space-between;
+    
   }
   
   .siRating>span{
     font-weight: 500;
+    padding: 0;
+    
   }
   .siRating>button{
    background-color: #003580;

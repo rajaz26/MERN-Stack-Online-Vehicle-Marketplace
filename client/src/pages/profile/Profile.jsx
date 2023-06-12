@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./profile.css";
 import Navbar from "../../components/navbar/Navbar";
 import { Link } from "react-router-dom";
@@ -7,60 +7,34 @@ import { useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 // import Header from "../../components/header/Header";
-import { useState } from "react";
 import axios from "axios";
-
-//register function
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
-  const id = user._id;
+  const id = user.user.user._id;
   const { data, loading, error } = useFetch(`/auth/find/${id}`);
 
   const [username, setUserName] = useState(user.username);
-  const [phone, setPhone] = useState(user.phone);
-  const [email, setEmail] = useState(user.email);
+  const [phone, setPhone] = useState(user.user.user.phone);
+  const [email, setEmail] = useState(user.user.user.email);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  // const body = {
-  //   make: make,
-  //   model: model,
-  //   yearmodel: yearmodel,
-  //   color: color,
-  //   average: average,
-  //   mileage: mileage,
-  //   city: city,
-  //   transmission: transmission,
-  //   price: price,
-  // };
-
-  // const [user1, setUser1] = useState({
-  //   username: user.username,
-  //   email: user.email,
-  //   phone: user.userphone,
-  // });
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setUser1({
-  //     ...user1, //spread operator
-  //     [name]: value,
-  //   });
-  // };
-
-  const Update = async () => {
+  const handleUpdate = async () => {
     const body = { username, email, phone };
-    // const body = {
-    //   username1: setUserName,
-    //   email1: setEmail,
-    //   phone1: setPhone,
-    // };
-
     if (username && email && phone) {
-      axios.put(`/auth/profile/${id}`, body).then((res) => console.log(res));
-      console.log(body);
+      try {
+        await axios.put(`/auth/profile/${id}`, body);
+        setModalIsOpen(true);
+      } catch (error) {
+        console.error("Update failed", error);
+      }
     } else {
-      alert("invalid input");
+      alert("Invalid input");
     }
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
   };
 
   return (
@@ -106,7 +80,7 @@ const Profile = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             ></input>
-            <button className="button" onClick={Update}>
+            <button className="button" onClick={handleUpdate}>
               Update
             </button>
             <Link
@@ -118,8 +92,18 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      {modalIsOpen && (
+        <div className="modal">
+          <div className="modalContent">
+            <h2 className="modalHeading">Profile Updated Successfully</h2>
+            <button className="modalButton" onClick={closeModal}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
-// };
+
 export default Profile;

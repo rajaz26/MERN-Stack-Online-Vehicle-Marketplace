@@ -11,9 +11,22 @@ const Used1 = () => {
   const [make, setMake] = useState(location.state.make);
   const [model, setModel] = useState(location.state.model);
   const [city, setCity] = useState(location.state.city);
-  const { data, loading, error } = useFetch(
-    `/used?make=${make}&city=${city}&model=${model}`
-  );
+  let apiUrl = `/used?make=${make}&city=${city}&model=${model}`;
+
+  if (!city & !model) {
+    apiUrl = `/used?make=${make}`;
+  } else if (!make & !city) {
+    apiUrl = `/used?model=${model}`;
+  } else if (!make & !model) {
+    apiUrl = `/used?city=${city}`;
+  } else if (!model) {
+    apiUrl = `/used?city=${city}&make=${make}`;
+  } else if (!city) {
+    apiUrl = `/used?model=${model}&make=${make}`;
+  } else if (!make) {
+    apiUrl = `/used?city=${city}&model=${model}`;
+  }
+  const { data, loading, error } = useFetch(apiUrl);
   return (
     <div>
       <Navbar />
@@ -76,9 +89,11 @@ const Used1 = () => {
               "loading"
             ) : (
               <>
-                {data.map((item) => (
-                  <SearchItem item={item} key={item._id} />
-                ))}
+                {data.length === 0 ? (
+                  <p>No results found</p>
+                ) : (
+                  data.map((item) => <SearchItem item={item} key={item._id} />)
+                )}
               </>
             )}
           </div>

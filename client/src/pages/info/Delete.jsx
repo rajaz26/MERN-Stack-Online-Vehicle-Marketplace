@@ -5,14 +5,13 @@ import "./info.css";
 
 const Delete = (props) => {
   const { user } = useContext(AuthContext);
-  const id = user._id;
-  // console.log(event);
-  const deleteAd = (event) => {
+  const id = user.user.user._id;
+
+  const deleteAd = () => {
     axios
       .delete(`/used/delete/${id}/${props.item}`)
       .then((res) => {
-        let $itemCard = document.querySelector(`[name="${props.item}"]`);
-        $itemCard.remove();
+        props.onDelete(props.item); // Call the onDelete callback after deleting the ad
         console.log("Ad successfully deleted!");
       })
       .catch((error) => {
@@ -22,7 +21,7 @@ const Delete = (props) => {
 
   return (
     <div>
-      <button onClick={deleteAd} className="viewCheckButtond ">
+      <button onClick={deleteAd} className="viewCheckButtond">
         Delete Ad
       </button>
     </div>

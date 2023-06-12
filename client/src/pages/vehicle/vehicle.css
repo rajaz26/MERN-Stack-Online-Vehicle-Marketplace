@@ -79,7 +79,6 @@
 .VehicleImg{
     width: 400px;
     height: 250px;
-    
     object-fit: cover;
     cursor: pointer;
 }
@@ -225,6 +224,16 @@ width: 400px;
   .arrow{
     margin: 20px;
     font-size: 50px;
+    color: lightgray;
+    cursor: pointer;
+  }
+
+
+  .close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 30px;
     color: lightgray;
     cursor: pointer;
   }

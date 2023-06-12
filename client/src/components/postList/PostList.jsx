@@ -7,7 +7,7 @@ const PostList = () => {
   // const id = user._id;
   let id = undefined;
   if (user) {
-    id = user._id;
+    id = user.user.user._id;
   }
   return (
     <div className="mail">

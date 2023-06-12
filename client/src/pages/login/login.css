@@ -120,3 +120,11 @@
    background-color: #0071c28c;
    cursor: not-allowed;
  } */
+
+ .input-error {
+   border-color: red;
+ }
+ 
+ .error-message {
+   color: red;
+ }
