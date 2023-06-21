@@ -27,3 +27,9 @@
     font-weight: 500;
 }
 
+.garageLogo{
+    margin-top: 10px;
+    object-fit: contain;
+    height: 120px;
+    width: 100px;
+}

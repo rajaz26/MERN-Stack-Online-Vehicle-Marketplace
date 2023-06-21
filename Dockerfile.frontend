@@ -1,0 +1,20 @@
+# Use a Node.js base image
+FROM node:20
+
+# Set the working directory
+WORKDIR /app/client
+
+# Copy package.json and package-lock.json
+COPY client/package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the frontend code
+COPY client/ .
+
+# Expose a port if needed (e.g., if your frontend runs on a specific port)
+EXPOSE 3000
+
+# Start the frontend server
+CMD ["npm", "start"]

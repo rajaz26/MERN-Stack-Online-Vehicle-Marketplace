@@ -6,7 +6,11 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { AuthContext } from "../../context/AuthContext";
+import { useLocation } from "react-router-dom";
+
 const Header = (props, userId) => {
+  const location = useLocation();
+  const currentUrl = location.pathname;
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   let id = undefined;
@@ -34,46 +38,65 @@ const Header = (props, userId) => {
         }
       >
         <div className="headerList">
-          {id ? (
+          {currentUrl == "/" ? (
             <Link to={`/`} style={{ color: "white", textDecoration: "none" }}>
               <div className="headerListItems active">Home</div>
             </Link>
           ) : (
             <Link to={"/"} style={{ color: "white", textDecoration: "none" }}>
-              <div className="headerListItems active">Home</div>
+              <div className="headerLi">Home</div>
             </Link>
           )}
-          {/* <Link to="/used" style={{ color: "white", textDecoration: "none" }}> */}
-          <div className="headerLi" onClick={handleSearch}>
-            Used Cars
-          </div>
-          {/* </Link> */}
-          <Link
-            to="/new"
-            style={{ color: "white", textDecoration: "none" }}
-            onClick={handleSearchNew}
-          >
-            <div className="headerLi">New Cars</div>
-          </Link>
+          {currentUrl == "/used" ? (
+            <div className="headerListItems active" onClick={handleSearch}>
+              Used Cars
+            </div>
+          ) : (
+            <div className="headerLi" onClick={handleSearch}>
+              Used Cars
+            </div>
+          )}
+          {currentUrl == "/new" ? (
+            <Link
+              to={`/new`}
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <div className="headerListItems active">New Cars</div>
+            </Link>
+          ) : (
+            <Link
+              to={"/new"}
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <div className="headerLi">New Cars</div>
+            </Link>
+          )}
           {user ? (
             <Link
               to={`/post/${id}`}
               style={{ color: "white", textDecoration: "none" }}
             >
-              <div className="headerLi">Post Ad</div>
+              <div
+                className={`headerListItems ${
+                  currentUrl.startsWith("/post/") ? "active" : ""
+                }`}
+              >
+                Post Ads
+              </div>
             </Link>
           ) : (
             <Link
-              to={`/login`}
+              to={"/login"}
               style={{ color: "white", textDecoration: "none" }}
             >
-              <div className="headerLi">Post Ad</div>
+              <div className="headerLi">Post Ads</div>
             </Link>
           )}
         </div>
         {type !== "post" && (
           <>
             <h1 className="headerTitle">The Garage</h1>
+            {/* <img src="/logo.png" alt="" className="garageHeader" /> */}
             <p className="headerDesc">
               Buy and sell vehicle and get the best prices !
             </p>

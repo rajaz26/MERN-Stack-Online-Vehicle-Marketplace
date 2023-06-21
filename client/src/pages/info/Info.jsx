@@ -20,21 +20,35 @@ const Info = () => {
     }
   }, [loading, error, data]);
 
+  const [showConfirmation, setShowConfirmation] = useState(false); // State variable to control confirmation model
+  const [itemIdToDelete, setItemIdToDelete] = useState(null); // State variable to store the ID of the item to be deleted
+
   const handleDelete = (itemId) => {
     console.log(itemId);
     setAds((prevAds) => prevAds.filter((item) => item && item._id !== itemId));
   };
 
   const deleteAd = (itemId) => {
-    axios
-      .delete(`/used/delete/${id}/${itemId}`)
-      .then((res) => {
-        handleDelete(itemId);
-        console.log("Ad successfully deleted!");
-      })
-      .catch((error) => {
-        console.log(error, "Ad not deleted");
-      });
+    setItemIdToDelete(itemId); // Store the ID of the item to be deleted
+    setShowConfirmation(true); // Show the confirmation model
+  };
+
+  const confirmDelete = () => {
+    if (itemIdToDelete) {
+      axios
+        .delete(`/used/delete/${id}/${itemIdToDelete}`)
+        .then((res) => {
+          handleDelete(itemIdToDelete);
+          console.log("Ad successfully deleted!");
+        })
+        .catch((error) => {
+          console.log(error, "Ad not deleted");
+        })
+        .finally(() => {
+          setShowConfirmation(false); // Hide the confirmation model
+          setItemIdToDelete(null); // Reset the item ID to delete
+        });
+    }
   };
 
   return (
@@ -101,6 +115,24 @@ const Info = () => {
           })
         )}
       </div>
+
+      {/* Confirmation Model */}
+      {showConfirmation && (
+        <div className="confirmationModel">
+          <h3>Are you sure you want to delete this item?</h3>
+          <div className="confirmationButtons">
+            <button className="confirmationButton" onClick={confirmDelete}>
+              Yes
+            </button>
+            <button
+              className="confirmationButton"
+              onClick={() => setShowConfirmation(false)}
+            >
+              No
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

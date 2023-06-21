@@ -1,0 +1,12 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd client && npm start\" \"cd server && npm start\"",
+    "build": "npm install && npm install --prefix client && npm install --prefix server && npm run build --prefix client"
+  },
+  "author": "",
+  "license": "ISC"
+}

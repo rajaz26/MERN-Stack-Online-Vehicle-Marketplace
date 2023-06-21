@@ -66,6 +66,11 @@
     transform: scaleX(1);
     transform-origin: bottom left;
   }
+
+  .headerLi:hover {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
 .headerDesc{
     margin:20px 0px;
 }
@@ -128,4 +133,8 @@
 
 .dropdown>option{
     color: gray;
+}
+
+.garageHeader{
+    width: 200px;
 }

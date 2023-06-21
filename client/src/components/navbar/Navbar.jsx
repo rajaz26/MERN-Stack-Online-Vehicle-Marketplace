@@ -29,7 +29,7 @@ const Navbar = (userId) => {
           to={`/`}
           style={{ color: "white", textDecoration: "none" }}
         >
-          <span className="logo">The Garage</span>
+          <img src="/logo.png" alt="" className="garageLogo" />
         </Link>
 
         {user ? (
